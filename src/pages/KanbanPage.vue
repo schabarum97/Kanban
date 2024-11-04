@@ -1,22 +1,63 @@
 <template>
-  <div class="q-pa-md row justify-around kanban-board">
-    <div v-for="(card, index) in kanbanCards" :key="index" class="col-2 kanban-column">
-      <div class="kanban-card">
-        <div class="kanban-card-title">ID: {{ card.tar_id }}</div>
-        <div class="kanban-card-field"><strong>Descrição:</strong> {{ card.tar_descricao }}</div>
-        <div class="kanban-card-field"><strong>Data Início:</strong> {{ card.tar_dataini }}</div>
-        <div class="kanban-card-field"><strong>Data Fim:</strong> {{ card.tar_datafim }}</div>
-        <div class="kanban-card-field"><strong>Horas Trabalhadas:</strong> {{ card.tar_horasTrab }}</div>
-        <div class="kanban-card-field"><strong>Status ID:</strong> {{ card.stt_id }}</div>
-        <div class="kanban-card-field"><strong>Funcionário ID:</strong> {{ card.fun_id }}</div>
-        <div class="kanban-card-field"><strong>Projeto ID:</strong> {{ card.prj_id }}</div>
-      </div>
-    </div>
-  </div>
+  <q-page class="flex flex-center">
+    <q-layout class="q-pa-md row justify-around kanban-board">
+      <q-card v-for="(card, index) in kanbanCards" :key="index" class="col-2 kanban-column">
+        <q-card-section class="kanban-card">
+          <q-item>
+            <q-item-section class="kanban-card-title">
+              ID: {{ card.tarefa.tar_id }}
+            </q-item-section>
+          </q-item>
+
+          <q-item>
+            <q-item-section class="kanban-card-field">
+              <strong>Descrição:</strong> {{ card.tarefa[0].tar_descricao }}
+            </q-item-section>
+          </q-item>
+
+          <q-item>
+            <q-item-section class="kanban-card-field">
+              <strong>Data Início:</strong> {{ card.tarefa[0].tar_dataini }}
+            </q-item-section>
+          </q-item>
+
+          <q-item>
+            <q-item-section class="kanban-card-field">
+              <strong>Data Fim:</strong> {{ card.tarefa[0].tar_datafim }}
+            </q-item-section>
+          </q-item>
+
+          <q-item>
+            <q-item-section class="kanban-card-field">
+              <strong>Horas Trabalhadas:</strong> {{ card.tarefa[0].tar_horasTrab }}
+            </q-item-section>
+          </q-item>
+
+          <q-item>
+            <q-item-section class="kanban-card-field">
+              <strong>Status ID:</strong> {{ card.tarefa[0].stt_id }}
+            </q-item-section>
+          </q-item>
+
+          <q-item>
+            <q-item-section class="kanban-card-field">
+              <strong>Funcionário ID:</strong> {{ card.tarefa[0].fun_id }}
+            </q-item-section>
+          </q-item>
+
+          <q-item>
+            <q-item-section class="kanban-card-field">
+              <strong>Projeto ID:</strong> {{ card.tarefa[0].prj_id }}
+            </q-item-section>
+          </q-item>
+        </q-card-section>
+      </q-card>
+    </q-layout>
+  </q-page>
 </template>
 
 <script>
-import { fetchKanbanCards } from "../services/KanbanService";
+import { Kanban } from "../services/KanbanService";
 
 export default {
   data() {
@@ -24,20 +65,19 @@ export default {
       kanbanCards: [],
     };
   },
-  created() {
-    // Realiza o fetch para 10 IDs (exemplo)
-    const fetchPromises = [];
-    for (let id = 1; id <= 10; id++) {
-      fetchPromises.push(fetchKanbanCards(id));
-    }
-
-    Promise.all(fetchPromises)
-      .then(results => {
-        this.kanbanCards = results; // Adapte isso conforme a estrutura do retorno
-      })
-      .catch(error => {
-        console.error('Erro ao carregar os cards do kanban:', error);
-      });
+  methods:{
+      async getDadosKanbans(){
+        for (let id = 1; id <= 5; id++) {
+           await Kanban.getDadosKanban(id).then(res => {
+            console.log(res)
+            this.kanbanCards.push(res)
+           })
+        }
+        console.log(this.kanbanCards)
+      }
+  },
+  mounted(){
+    this.getDadosKanbans()
   }
 };
 </script>
@@ -56,7 +96,7 @@ export default {
 }
 
 .kanban-card {
-  background-color: #6d6d6d;
+  background-color: green;
   color: white;
   border-radius: 6px;
   margin: 25px 0;
