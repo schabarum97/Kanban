@@ -11,14 +11,16 @@ export const Projeto = {
   },
   async createProjeto(data) {
     try {
-        return await api.post('/projeto', data);
+        const ret =  await api.post('/projeto', data);
+        console.log(ret.data)
+        return ret.data
         } catch (err) {
             throw err;
         }
     },
     async updateProjeto(data) {
         try {
-            return await api.patch(`/projeto/${data.prj_id}`, data);
+            return await api.patch(`/projeto/${data.id}`, data);
         } catch (err) {
             throw err;
         }
