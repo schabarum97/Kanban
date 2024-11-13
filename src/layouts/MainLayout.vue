@@ -64,12 +64,6 @@
           </q-item-section>
         </q-item>
       </q-list>
-
-      <q-space />
-      <div class="q-pa-md row items-center justify-center">
-        <q-btn icon="light_mode" label="Light" @click="setTheme('light')" />
-        <q-btn icon="dark_mode" label="Dark" @click="setTheme('dark')" />
-      </div>
     </q-drawer>
 
     <q-page-container>
@@ -88,17 +82,6 @@ function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value;
 }
 
-function setTheme(val) {
-  theme.value = 'light';
-  if (val === 'light') {
-    document.body.classList.add('light-mode');
-    document.body.classList.remove('bg-color');
-  } else {
-    document.body.classList.add('bg-color');
-    document.body.classList.remove('light-mode');
-  }
-}
-
 defineOptions({
   name: "MainLayout",
 });
@@ -106,7 +89,7 @@ defineOptions({
 
 <style>
 body.bg-color {
-  background-color: #1F1B24;
+  background-color: white;
 }
 
 body.light-mode {
@@ -122,8 +105,8 @@ body.light-mode .description {
 }
 
 .dark {
-  background-color: #333; 
-  color: white;
+  background-color: white; 
+  color: #333;
 }
 
 .light {
