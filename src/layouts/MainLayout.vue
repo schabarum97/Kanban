@@ -35,7 +35,7 @@
           </q-item-section>
         </q-item>
       </q-list>
-      
+
       <q-list>
         <q-item clickable v-ripple>
           <q-item-section avatar>
@@ -46,21 +46,56 @@
           </q-item-section>
         </q-item>
 
-        <q-item clickable v-ripple>
-          <q-item-section avatar>
-            <q-icon name="assignment" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Cadastro</q-item-label>
-          </q-item-section>
-        </q-item>
+        <!-- Cadastro com Sub-itens -->
+        <q-expansion-item 
+          icon="assignment"
+          label="Cadastro"
+          expand-separator
+          dense
+        >
+          <q-list>
+            <q-item clickable v-ripple :to="{ path: '/home/projeto' }">
+              <q-item-section avatar>
+                <q-icon name="folder" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Projeto</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable v-ripple :to="{ path: '/home/funcionario' }">
+              <q-item-section avatar>
+                <q-icon name="person" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Funcionário</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable v-ripple :to="{ path: '/home/status' }">
+              <q-item-section avatar>
+                <q-icon name="flag" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Status</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable v-ripple :to="{ path: '/home/tarefa' }">
+              <q-item-section avatar>
+                <q-icon name="check_circle" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Tarefa</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-expansion-item>
 
-        <q-item clickable v-ripple>
+        <!-- Kanban Item -->
+        <q-item clickable v-ripple :to="{ path: '/home/kanban' }">
           <q-item-section avatar>
-            <q-icon name="person" />
+            <q-icon name="view_kanban" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>Consulta</q-item-label>
+            <q-item-label>Kanban</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
