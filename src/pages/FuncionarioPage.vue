@@ -61,10 +61,12 @@
   
   <script>
   import { Funcionario } from "../services/FuncionarioService";
+  import { useQuasar } from 'quasar';
   
   export default {
     data() {
       return {
+        q: useQuasar(),
         funcionarios: [],
         columns: [
           { name: "fun_id", label: "ID", align: "left", field: "fun_id" },
@@ -148,12 +150,30 @@
         try {
           if (this.formData.fun_id) {
             await Funcionario.updateFuncionario(funcionarioDataPut);
+            this.q.notify({
+                    type: 'positive',
+                    message: 'Funcionario atualizado com sucesso!',
+                    position: 'top-right',
+                    timeout: 3000
+                  })
           } else {
             await Funcionario.createFuncionario(funcionarioData);
+            this.q.notify({
+                    type: 'positive',
+                    message: 'Funcionario inserido com sucesso!',
+                    position: 'top-right',
+                    timeout: 3000
+                  })
           }
           this.clearForm();
           this.fetchFuncionarios();
         } catch (err) {
+          this.q.notify({
+                    type: 'negative',
+                    message: 'Erro ao gravar registro do funcionario',
+                    position: 'top-right',
+                    timeout: 3000
+                  })
           console.error("Erro ao salvar funcionário:", err);
         }
       },
@@ -165,7 +185,19 @@
           await Funcionario.deleteFuncionario(id);
           this.clearForm();
           this.fetchFuncionarios();
+          this.q.notify({
+                    type: 'positive',
+                    message: 'Funcionario deletado com sucesso!',
+                    position: 'top-right',
+                    timeout: 3000
+                  })
         } catch (err) {
+          this.q.notify({
+                    type: 'negative',
+                    message: 'Erro ao deletar registro',
+                    position: 'top-right',
+                    timeout: 3000
+                  })
           console.error("Erro ao excluir funcionário:", err);
         }
       },

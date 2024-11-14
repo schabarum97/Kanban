@@ -22,7 +22,6 @@
               </q-item-section>
             </q-item>
 
-            <!-- Exibir cada campo na mesma linha, sem quebra -->
             <q-item v-for="(field, label) in cardFields(card)" :key="label">
               <q-item-section class="kanban-card-field-inline">
                 <strong>{{ label }}:</strong> {{ field }}

@@ -63,10 +63,12 @@
   
   <script>
   import { Tarefa } from "../services/TarefaService";
+  import { useQuasar } from 'quasar';
   
   export default {
     data() {
       return {
+        q: useQuasar(),
         tarefas: [],
         columns: [
           { name: "tar_id", label: "ID", align: "left", field: "tar_id" },
@@ -179,12 +181,30 @@
         try {
           if (this.formData.tar_id) {
             await Tarefa.updateTarefa(tarefaDataPut);
+            this.q.notify({
+                    type: 'positive',
+                    message: 'Tarefa atualizado com sucesso!',
+                    position: 'top-right',
+                    timeout: 3000
+                  })
           } else {
             await Tarefa.createTarefa(tarefaData);
+            this.q.notify({
+                    type: 'positive',
+                    message: 'Tarefa inserido com sucesso!',
+                    position: 'top-right',
+                    timeout: 3000
+                  })
           }
           this.clearForm();
           this.fetchTarefas();
         } catch (err) {
+          this.q.notify({
+                    type: 'negative',
+                    message: 'Erro ao gravar registro da tarefa',
+                    position: 'top-right',
+                    timeout: 3000
+                  })
           console.error("Erro ao salvar tarefa:", err);
         }
       },
@@ -200,7 +220,19 @@
           await Tarefa.deleteTarefa(id);
           this.clearForm();
           this.fetchTarefas();
+          this.q.notify({
+                    type: 'positive',
+                    message: 'Tarefa deletado com sucesso!',
+                    position: 'top-right',
+                    timeout: 3000
+                  })
         } catch (err) {
+          this.q.notify({
+                    type: 'negative',
+                    message: 'Erro ao deletar registro',
+                    position: 'top-right',
+                    timeout: 3000
+                  })
           console.error("Erro ao excluir tarefa:", err);
         }
       },

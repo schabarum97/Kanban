@@ -61,10 +61,12 @@
   
   <script>
     import { Projeto } from "../services/ProjetoService";
-    
+    import { useQuasar } from 'quasar';
+
     export default {
       data() {
         return {
+          q: useQuasar(),
           projects: [],
           columns: [
             { name: "prj_id", label: "ID", align: "left", field: "prj_id" },
@@ -100,6 +102,7 @@
         }
       },
       methods: {
+        
         async fetchProjects() {
           try {
             this.projects = [];
@@ -134,6 +137,12 @@
               this.clearForm();
             }
           } catch (err) {
+            this.q.notify({
+                    type: 'negative',
+                    message: 'Erro ao buscar registro do projeto',
+                    position: 'top-right',
+                    timeout: 3000
+                  })
             console.error("Erro ao buscar projeto:", err);
           }
         },
@@ -162,11 +171,29 @@
           try {
             if (this.formData.prj_id) {
               await Projeto.updateProjeto(projectDataPut);
+              this.q.notify({
+                    type: 'positive',
+                    message: 'Projeto atualizado com sucesso!',
+                    position: 'top-right',
+                    timeout: 3000
+                  })
             } else {
               await Projeto.createProjeto(projectData);
+              this.q.notify({
+                    type: 'positive',
+                    message: 'Projeto inserido com sucesso!',
+                    position: 'top-right',
+                    timeout: 3000
+                  })
             }
             this.fetchProjects();
           } catch (err) {
+            this.q.notify({
+                    type: 'negative',
+                    message: 'Erro ao gravar registro do projeto',
+                    position: 'top-right',
+                    timeout: 3000
+                  })
             console.error("Erro ao salvar projeto:", err);
           }
         },
@@ -182,8 +209,20 @@
             await Projeto.deleteProjeto(id);
             this.clearForm();
             this.fetchProjects();
+            this.q.notify({
+                    type: 'positive',
+                    message: 'Projeto deletado com sucesso!',
+                    position: 'top-right',
+                    timeout: 3000
+                  })
           } catch (err) {
             console.error("Erro ao excluir projeto:", err);
+            this.q.notify({
+                    type: 'negative',
+                    message: 'Erro ao deletar registro',
+                    position: 'top-right',
+                    timeout: 3000
+                  })
           }
         },
         clearForm() {

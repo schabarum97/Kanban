@@ -68,10 +68,12 @@
   
   <script>
   import { Status } from "../services/StatusService";
+  import { useQuasar } from 'quasar';
   
   export default {
     data() {
       return {
+        q: useQuasar(),
         statusList: [],
         columns: [
           { name: "stt_id", label: "ID", align: "left", field: "stt_id" },
@@ -164,12 +166,30 @@
         try {
           if (this.formData.stt_id) {
             await Status.updateStatus(statusDataPut);
+            this.q.notify({
+                    type: 'positive',
+                    message: 'Status atualizado com sucesso!',
+                    position: 'top-right',
+                    timeout: 3000
+                  })
           } else {
             await Status.createStatus(statusData);
+            this.q.notify({
+                    type: 'positive',
+                    message: 'Status inserido com sucesso!',
+                    position: 'top-right',
+                    timeout: 3000
+                  })
           }
           this.clearForm();
           this.fetchStatusList();
         } catch (err) {
+          this.q.notify({
+                    type: 'negative',
+                    message: 'Erro ao gravar registro do status',
+                    position: 'top-right',
+                    timeout: 3000
+                  })
           console.error("Erro ao salvar status:", err);
         }
       },
@@ -185,7 +205,19 @@
           await Status.deleteStatus(id);
           this.clearForm();
           this.fetchStatusList();
+          this.q.notify({
+                    type: 'positive',
+                    message: 'Status deletado com sucesso!',
+                    position: 'top-right',
+                    timeout: 3000
+                  })
         } catch (err) {
+          this.q.notify({
+                    type: 'negative',
+                    message: 'Erro ao deletar registro',
+                    position: 'top-right',
+                    timeout: 3000
+                  })
           console.error("Erro ao excluir status:", err);
         }
       },
