@@ -30,14 +30,14 @@
             </q-avatar>
           </q-item-section>
           <q-item-section>
-            <q-item-label>Teste</q-item-label>
+            <q-item-label>Renan</q-item-label>
             <q-item-label caption>teste@gmail.com</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
 
       <q-list>
-        <q-item clickable v-ripple>
+        <q-item clickable v-ripple :to="{ path: '/home/dashboard' }">
           <q-item-section avatar>
             <q-icon name="dashboard" />
           </q-item-section>
@@ -46,7 +46,6 @@
           </q-item-section>
         </q-item>
 
-        <!-- Cadastro com Sub-itens -->
         <q-expansion-item 
           icon="assignment"
           label="Cadastro"

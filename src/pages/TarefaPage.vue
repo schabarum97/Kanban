@@ -49,8 +49,8 @@
                   <q-td>{{ props.row.fun_id }}</q-td>
                   <q-td>{{ props.row.prj_id }}</q-td>
                   <q-td class="action-buttons">
-                    <q-btn label="Editar" color="primary" @click="editTarefa(props.row)" size="sm" />
-                    <q-btn label="Excluir" color="negative" @click="deleteTarefa(props.row.tar_id)" size="sm" />
+                    <q-btn label="Editar" color="black" @click="editTarefa(props.row)" size="sm" />
+                    <q-btn label="Excluir" color="red" @click="deleteTarefa(props.row.tar_id)" size="sm" />
                   </q-td>
                 </q-tr>
               </template>
@@ -64,11 +64,13 @@
   <script>
   import { Tarefa } from "../services/TarefaService";
   import { useQuasar } from 'quasar';
+  import { useRouter } from "vue-router";
   
   export default {
     data() {
       return {
         q: useQuasar(),
+        router: useRouter(),
         tarefas: [],
         columns: [
           { name: "tar_id", label: "ID", align: "left", field: "tar_id" },
@@ -108,10 +110,19 @@
       }
     },
     methods: {
+      checkIfLoggedIn() {
+        // Verifica se há um token de autenticação ou algo que indique que o usuário está logado
+        const token = localStorage.getItem('token');
+        console.log(token)
+        if (!token) {
+          // Se não estiver logado, redireciona para a página de login
+          this.$router.push('/login');
+        }
+      },
       async fetchTarefas() {
         try {
           this.tarefas = [];
-          for (let i = 1; i <= 10; i++) {
+          for (let i = 1; i <= 100; i++) {
             try {
               const res = await Tarefa.getTarefa(i);
               if (res && res.tarefa && res.tarefa.length > 0) {
@@ -250,6 +261,7 @@
       }
     },
     mounted() {
+      this.checkIfLoggedIn();
       this.fetchTarefas();
     }
   };

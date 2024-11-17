@@ -54,8 +54,8 @@
                   <q-td>{{ props.row.stt_datafim }}</q-td>
                   <q-td>{{ props.row.stt_cor }}</q-td>
                   <q-td class="action-buttons">
-                    <q-btn label="Editar" color="primary" @click="editStatus(props.row)" size="sm" />
-                    <q-btn label="Excluir" color="negative" @click="deleteStatus(props.row.stt_id)" size="sm" />
+                    <q-btn label="Editar" color="black" @click="editStatus(props.row)" size="sm" />
+                    <q-btn label="Excluir" color="red" @click="deleteStatus(props.row.stt_id)" size="sm" />
                   </q-td>
                 </q-tr>
               </template>
@@ -69,11 +69,13 @@
   <script>
   import { Status } from "../services/StatusService";
   import { useQuasar } from 'quasar';
+  import { useRouter } from "vue-router";
   
   export default {
     data() {
       return {
         q: useQuasar(),
+        router: useRouter(),
         statusList: [],
         columns: [
           { name: "stt_id", label: "ID", align: "left", field: "stt_id" },
@@ -108,6 +110,15 @@
       }
     },
     methods: {
+      checkIfLoggedIn() {
+        // Verifica se há um token de autenticação ou algo que indique que o usuário está logado
+        const token = localStorage.getItem('token');
+        console.log(token)
+        if (!token) {
+          // Se não estiver logado, redireciona para a página de login
+          this.$router.push('/login');
+        }
+      },
       async fetchStatusList() {
         try {
           this.statusList = [];
@@ -233,6 +244,7 @@
       }
     },
     mounted() {
+      this.checkIfLoggedIn();
       this.fetchStatusList();
     }
   };

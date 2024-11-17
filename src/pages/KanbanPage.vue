@@ -36,10 +36,12 @@
 
 <script>
 import { Kanban } from "../services/KanbanService";
+import { useRouter } from "vue-router";
 
 export default {
   data() {
     return {
+      router: useRouter(),
       kanbanCards: [],
     };
   },
@@ -56,6 +58,15 @@ export default {
     },
   },
   methods: {
+    checkIfLoggedIn() {
+        // Verifica se há um token de autenticação ou algo que indique que o usuário está logado
+        const token = localStorage.getItem('token');
+        console.log(token)
+        if (!token) {
+          // Se não estiver logado, redireciona para a página de login
+          this.$router.push('/login');
+        }
+    },
     async getDadosKanbans() {
       for (let id = 1; id <= 60; id++) {
         await Kanban.getDadosKanban(id).then((res) => {
@@ -74,6 +85,7 @@ export default {
     },
   },
   mounted() {
+    this.checkIfLoggedIn();
     this.getDadosKanbans();
   },
 };

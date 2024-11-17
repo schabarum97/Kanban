@@ -11,6 +11,7 @@ const routes = [
       { path: "tarefa", component: () => import("pages/TarefaPage.vue") },
       { path: "status", component: () => import("pages/StatusPage.vue") },
       { path: "funcionario", component: () => import("pages/FuncionarioPage.vue") },
+      { path: "dashboard", component: () => import("pages/DashBoardPage.vue") },
     ],
   },
   {

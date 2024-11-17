@@ -47,8 +47,8 @@
                   <q-td>{{ props.row.fun_cpf }}</q-td>
                   <q-td>{{ props.row.stt_id }}</q-td>
                   <q-td class="action-buttons">
-                    <q-btn label="Editar" color="primary" @click="editFuncionario(props.row)" size="sm" />
-                    <q-btn label="Excluir" color="negative" @click="deleteFuncionario(props.row.fun_id)" size="sm" />
+                    <q-btn label="Editar" color="black" @click="editFuncionario(props.row)" size="sm" />
+                    <q-btn label="Excluir" color="red" @click="deleteFuncionario(props.row.fun_id)" size="sm" />
                   </q-td>
                 </q-tr>
               </template>
@@ -62,11 +62,13 @@
   <script>
   import { Funcionario } from "../services/FuncionarioService";
   import { useQuasar } from 'quasar';
+  import { useRouter } from "vue-router";
   
   export default {
     data() {
       return {
         q: useQuasar(),
+        router: useRouter(),
         funcionarios: [],
         columns: [
           { name: "fun_id", label: "ID", align: "left", field: "fun_id" },
@@ -99,6 +101,15 @@
       }
     },
     methods: {
+      checkIfLoggedIn() {
+        // Verifica se há um token de autenticação ou algo que indique que o usuário está logado
+        const token = localStorage.getItem('token');
+        console.log(token)
+        if (!token) {
+          // Se não estiver logado, redireciona para a página de login
+          this.$router.push('/login');
+        }
+      },
       async fetchFuncionarios() {
         try {
           this.funcionarios = [];
@@ -214,6 +225,7 @@
       }
     },
     mounted() {
+      this.checkIfLoggedIn();
       this.fetchFuncionarios();
     }
   };

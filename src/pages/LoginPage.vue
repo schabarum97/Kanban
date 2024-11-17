@@ -154,26 +154,58 @@
 
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { useAuthStore } from "../stores/auth";
+import { Auth } from "../services/Auth";
+import { useQuasar } from "quasar";
 
 const username = ref("");
 const password = ref("");
 const rememberMe = ref(false);
 const loading = ref(false);
 
-const onSubmit = () => {
-  loading.value = true;
-  setTimeout(() => {
-    loading.value = false;
-    console.log("Logged in:", {
-      username: username.value,
-      password: password.value,
-      rememberMe: rememberMe.value,
-    });
-  }, 1000);
-};
+const store = useAuthStore();
+const router = useRouter(); 
+const $q = useQuasar();
 
-const togglePasswordVisibility = () => {
-  // Função de exibição de senha
+const onSubmit = async () => {
+  if (!username.value || !password.value) {
+    $q.notify({
+      color: "negative",
+      message: "Por favor, preencha o usuário e a senha.",
+      icon: "error",
+    });
+    return;
+  }
+
+  loading.value = true;
+
+  try {
+    const basicToken = btoa(`${username.value}:${password.value}`);
+    const response = await Auth.login({
+      headers: {
+        Authorization: `Basic ${basicToken}`,
+      },
+    });
+
+    store.login(response.token, response.usuario);
+    $q.notify({
+      color: "positive",
+      message: "Login realizado com sucesso!",
+      icon: "check_circle",
+    });
+    
+    router.push("/home/dashboard");
+  } catch (error) {
+    console.error(error);
+    $q.notify({
+      color: "negative",
+      message: error.response?.data?.message || "Erro no login",
+      icon: "error",
+    });
+  } finally {
+    loading.value = false;
+  }
 };
 </script>
 
@@ -182,7 +214,6 @@ const togglePasswordVisibility = () => {
   background-color: #1e1e2d;
 }
 
-/* Ajuste do fundo */
 .custom-background {
   background: radial-gradient(
       circle at 30% 50%,
@@ -194,7 +225,6 @@ const togglePasswordVisibility = () => {
   height: 100vh;
 }
 
-/* Estilo do cartão de login */
 .q-card {
   background-color: #2e2e48;
   border-radius: 15px;
@@ -205,16 +235,14 @@ const togglePasswordVisibility = () => {
   color: white;
 }
 
-/* Título principal maior */
 .text-title {
-  font-size: 4rem; /* Tamanho grande */
+  font-size: 4rem;
   font-weight: bold;
   margin-bottom: 1rem;
 }
 
-/* Subtítulo menor */
 .text-subtitle {
-  font-size: 1.5rem; /* Tamanho menor */
+  font-size: 1.5rem;
   font-weight: normal;
 }
 </style>
