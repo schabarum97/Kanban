@@ -242,7 +242,7 @@ export default {
     }
   },
   mounted() {
-    this.checkIfLoggedIn();  // Verifica se o usuário está logado assim que o componente for montado
+    this.checkIfLoggedIn();
     this.fetchProjects();
   }
 };
