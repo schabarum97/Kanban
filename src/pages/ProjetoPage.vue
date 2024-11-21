@@ -1,7 +1,6 @@
 <template>
   <q-page class="full-height">
     <div class="row full-height">
-      <!-- Formulário -->
       <q-card class="col-12 col-md-5 q-pa-md full-height scrollable-card">
         <q-card-section>
           <div class="text-h6">{{ formData.prj_id ? 'Editar Projeto' : 'Novo Projeto' }}</div>
@@ -26,7 +25,6 @@
         </q-form>
       </q-card>
   
-      <!-- Lista de Projetos -->
       <q-card class="col-12 col-md-7 q-pa-md full-height">
         <q-card-section>
           <div class="text-h6">Lista de Projetos</div>
@@ -105,11 +103,9 @@ export default {
   },
   methods: {
     checkIfLoggedIn() {
-      // Verifica se há um token de autenticação ou algo que indique que o usuário está logado
       const token = localStorage.getItem('token');
       console.log(token)
       if (!token) {
-        // Se não estiver logado, redireciona para a página de login
         this.$router.push('/login');
       }
     },

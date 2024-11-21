@@ -59,11 +59,9 @@ export default {
   },
   methods: {
     checkIfLoggedIn() {
-        // Verifica se há um token de autenticação ou algo que indique que o usuário está logado
         const token = localStorage.getItem('token');
         console.log(token)
         if (!token) {
-          // Se não estiver logado, redireciona para a página de login
           this.$router.push('/login');
         }
     },

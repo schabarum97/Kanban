@@ -1,6 +1,5 @@
 <template>
   <q-page class="full-height">
-    <!-- Gráfico de barras existente -->
     <q-card class="col-12 q-pa-md">
       <q-card-section>
         <div class="text-h6">Gráfico de Tarefas</div>
@@ -42,8 +41,6 @@
         </div>
       </q-card-section>
     </q-card>
-
-    <!-- Gráfico de pizza -->
     <q-card class="col-12 q-pa-md q-mt-md">
       <q-card-section>
         <div class="text-h6">Gráfico de Projetos por Status</div>

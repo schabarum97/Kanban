@@ -184,7 +184,6 @@ const onSubmit = () => {
 };
 
 const togglePasswordVisibility = () => {
-  // Lógica para exibir/ocultar a senha
 };
 </script>
 
@@ -193,7 +192,6 @@ const togglePasswordVisibility = () => {
   background-color: #1e1e2d;
 }
 
-/* Ajuste do fundo */
 .custom-background {
   background: radial-gradient(
       circle at 30% 50%,
@@ -205,7 +203,6 @@ const togglePasswordVisibility = () => {
   height: 100vh;
 }
 
-/* Estilo do cartão de registro */
 .q-card {
   background-color: #2e2e48;
   border-radius: 15px;
@@ -216,16 +213,14 @@ const togglePasswordVisibility = () => {
   color: white;
 }
 
-/* Título principal maior */
 .text-title {
-  font-size: 4rem; /* Tamanho grande */
+  font-size: 4rem;
   font-weight: bold;
   margin-bottom: 1rem;
 }
 
-/* Subtítulo menor */
 .text-subtitle {
-  font-size: 1.5rem; /* Tamanho menor */
+  font-size: 1.5rem;
   font-weight: normal;
 }
 </style>
